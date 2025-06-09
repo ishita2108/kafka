@@ -1,0 +1,22 @@
+Eager Rebalance -
+
+All Consumers stop, give up their memberships of partitions.
+They rejoin the consumer group & get a new partition.
+During a short period of time, the entire consumer group stops processings.
+Consumers don't necessarily get back the same partitions as they used to.
+This is known as "Stop the world Event".
+
+Cooperative Rebalance(Incremental rebalance) -
+
+Reassigning a small subset of the partitions from one consumer to another.
+Other consumers that don't have reassigned partitions can still process uninterrupted.
+Can go through several iterations to find a stable assignment (hence "incremental").
+Avoids "stop-the-world" events where all consumers stop processing data.
+
+KafkaConsumer: partition.assignment.strategy
+1. RangeAssignor --> Eager
+2. RoundRobin --> Eager
+3. StickyAssignor --> Eager
+4. CooperativeStickyAssignor --> Cooperative Rebalance
+
+
